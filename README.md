@@ -1,5 +1,5 @@
-Graph Annotator
-===============
+JS Graph Annotator
+==================
 
 A Javascript widget to draw a graph on an image.
 
@@ -55,9 +55,7 @@ Here is a quick usage example.
 API
 ---
 
-_GraphAnnotator_
-
-GraphAnnotator class constructor.
+__GraphAnnotator__ GraphAnnotator class constructor.
 
     GraphAnnotator(image_url, { option: value, ... })
 
@@ -94,9 +92,7 @@ Following is the required graph structure.
       edges: [{index: [0, 1]}, {index: [1, 2]}, ...]
     }
 
-_setNodeAttributes_
-
-Set node attributes.
+__setNodeAttributes__ Set node attributes.
 
     annotator.setNodeAttributes([index,] { attribute: value, ... })
 
@@ -109,14 +105,12 @@ There are three attributes.
 * `line_width` - Width of the line.
 * `diameter` - Diameter of the node.
 
-Example
+_Example_
 
     annotator.setNodeAttributes({color: [255, 255, 0]});
     annotator.setNodeAttributes(2, {color: [255, 255, 0]});
 
-_setEdgeAttributes_
-
-Set edge attributes.
+__setEdgeAttributes__ Set edge attributes.
 
     annotator.setEdgeAttributes([index,] { attribute: value, ... })
 
@@ -128,22 +122,18 @@ There are two attributes.
 * `color` - RGB values in a 3-element integer array.
 * `line_width` - Width of the line.
 
-Example
+_Example_
 
     annotator.setEdgeAttributes({color: [255, 255, 0]});
     annotator.setEdgeAttributes(2, {color: [255, 255, 0]});
 
-_getNextNode_
-
-Get the next node to annotate.
+__getNextNode__ Get the next node to annotate.
 
     next_node = annotator.getNextNode()
 
 Return an index of next node to annotate. When finished, return null.
 
-_getGraph_
-
-Get the current graph.
+__getGraph__ Get the current graph.
 
     graph = annotator.getGraph()
 
