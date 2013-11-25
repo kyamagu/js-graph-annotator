@@ -45,6 +45,7 @@ usage example.
       }
     });
 
+There is an online demo at http://vision.cs.stonybrook.edu/~kyamagu/js-graph-annotator/ .
 
 API
 ---
