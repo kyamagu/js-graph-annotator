@@ -236,6 +236,7 @@
       }
       container.style.display = 'inline-block';
       container.style.position = 'relative';
+      container.innerHTML = '';
     }
 
     // Initialize all.
