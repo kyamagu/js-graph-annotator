@@ -170,6 +170,7 @@
         example2.setNodeAttributes({color: null, diameter: 3});
         example1.setNodeAttributes(0, {color: [255, 0, 0], diameter:5});
         example2.setNodeAttributes(0, {color: [255, 0, 0], diameter:5});
+        document.getElementById('message').innerHTML = 'Click ' + nodes[0].name;
         document.getElementById('download-button').setAttribute('disabled', 'disabled');
       });
       // Set up the export button.
