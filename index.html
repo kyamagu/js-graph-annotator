@@ -15,6 +15,8 @@
   <div style="white-space:nowrap;">
     <div id="annotator"></div>
     <div class="inline-block" style="margin:0 1em;">
+      <h2>Graph annotator</h2>
+      <p>Demo on human pose annotation.</p>
       <p id="message" class="message"></p>
       <div style="white-space:nowrap;">
         <div class="inline-block">
@@ -37,18 +39,18 @@
     var nodes = [
       {name: 'head'},
       {name: 'neck'},
-      {name: 'right_shoulder'},
-      {name: 'right_elbow'},
-      {name: 'right_hand'},
-      {name: 'left_shoulder'},
-      {name: 'left_elbow'},
-      {name: 'left_hand'},
-      {name: 'right_hip'},
-      {name: 'left_hip'},
-      {name: 'right_knee'},
-      {name: 'left_knee'},
-      {name: 'right_ankle'},
-      {name: 'left_ankle'}
+      {name: 'right shoulder'},
+      {name: 'right elbow'},
+      {name: 'right hand'},
+      {name: 'left shoulder'},
+      {name: 'left elbow'},
+      {name: 'left hand'},
+      {name: 'right hip'},
+      {name: 'left hip'},
+      {name: 'right knee'},
+      {name: 'left knee'},
+      {name: 'right ankle'},
+      {name: 'left ankle'}
     ];
     // Pose edge definitions.
     var edges = [
@@ -133,7 +135,7 @@
         graph: graph,
         node_color: [255, 255, 255],
         onload: function(annotator) {
-          document.getElementById('message').innerHTML = 'Click ' + nodes[0].name;
+          document.getElementById('message').innerHTML = '&lt;&lt; Click ' + nodes[0].name;
         },
         onselect: function(annotator, current_node) {
           // Highlight the current node.
@@ -156,7 +158,7 @@
           }
           else {
             // Highlight the next node.
-            document.getElementById('message').innerHTML = 'Click ' + nodes[next_node].name;
+            document.getElementById('message').innerHTML = '&lt;&lt; Click ' + nodes[next_node].name;
             example1.setNodeAttributes(next_node, {color: [255, 0, 0], diameter: 5});
             example2.setNodeAttributes(next_node, {color: [255, 0, 0], diameter: 5});
           }
@@ -170,7 +172,7 @@
         example2.setNodeAttributes({color: null, diameter: 3});
         example1.setNodeAttributes(0, {color: [255, 0, 0], diameter:5});
         example2.setNodeAttributes(0, {color: [255, 0, 0], diameter:5});
-        document.getElementById('message').innerHTML = 'Click ' + nodes[0].name;
+        document.getElementById('message').innerHTML = '&lt;&lt; Click ' + nodes[0].name;
         document.getElementById('download-button').setAttribute('disabled', 'disabled');
       });
       // Set up the export button.
