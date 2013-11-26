@@ -250,14 +250,15 @@ GraphAnnotator.prototype._initializeEvents = function(options) {
 
 // Find and update the current node.
 GraphAnnotator.prototype._findNode = function(position) {
-  var candidate = null, i;
+  var candidate = null,
+      i;
   if (position) {
     // Find the nearest node.
     var min_distance = Infinity;
     for (i = 0; i < this.graph.nodes.length; ++i) {
       if (this.graph.nodes[i].position !== undefined) {
-        var node_position = this.graph.nodes[i].position;
-        var distance = Math.sqrt(
+        var node_position = this.graph.nodes[i].position,
+            distance = Math.sqrt(
             Math.pow(node_position[0] - position[0], 2) +
             Math.pow(node_position[1] - position[1], 2));
         if (distance <= this.hit_distance && distance <= min_distance) {
@@ -288,13 +289,14 @@ GraphAnnotator.prototype._renderGraph = function() {
     else
       return rgb;
   }
-  var context, i;
+  var context,
+      i;
   this.canvas.width = this.image.width;
   context = this.canvas.getContext('2d');
   for (i = 0; i < this.graph.edges.length; ++i) {
-    var edge = this.graph.edges[i];
-    var node1 = this.graph.nodes[edge.index[0]];
-    var node2 = this.graph.nodes[edge.index[1]];
+    var edge = this.graph.edges[i],
+        node1 = this.graph.nodes[edge.index[0]],
+        node2 = this.graph.nodes[edge.index[1]];
     if (node1.position === undefined || node2.position === undefined)
       continue;
     context.lineWidth = edge.line_width || this.line_width;
@@ -325,8 +327,8 @@ GraphAnnotator.prototype._renderGraph = function() {
 
 // Get a mouse position.
 GraphAnnotator.prototype._getPosition = function(event) {
-  var x = event.pageX - this.container.offsetLeft + this.container.scrollLeft;
-  var y = event.pageY - this.container.offsetTop + this.container.scrollTop;
+  var x = event.pageX - this.container.offsetLeft + this.container.scrollLeft,
+      y = event.pageY - this.container.offsetTop + this.container.scrollTop;
   x = Math.max(Math.min(x, this.canvas.width - 1), 0);
   y = Math.max(Math.min(y, this.canvas.height - 1), 0);
   return [x, y];
