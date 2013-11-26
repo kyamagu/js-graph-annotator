@@ -3,7 +3,9 @@ JS Graph Annotator
 
 A Javascript widget to draw a graph on an image.
 
- * Draw an arbitrary graph on an image with mouse.
+ * Draw a graph on an image with mouse.
+ * Click to add a node.
+ * Mouse drag to move a node.
  * Vanilla Javascript implementation.
  * HTML5 canvas is required to use.
 
@@ -16,18 +18,18 @@ Here is a quick usage example.
         nodes: [
           {name: 'head'},
           {name: 'neck'},
-          {name: 'right_shoulder'},
-          {name: 'right_elbow'},
-          {name: 'right_hand'},
-          {name: 'left_shoulder'},
-          {name: 'left_elbow'},
-          {name: 'left_hand'},
-          {name: 'right_hip'},
-          {name: 'left_hip'},
-          {name: 'right_knee'},
-          {name: 'left_knee'},
-          {name: 'right_ankle'},
-          {name: 'left_ankle'}
+          {name: 'right shoulder'},
+          {name: 'right elbow'},
+          {name: 'right hand'},
+          {name: 'left shoulder'},
+          {name: 'left elbow'},
+          {name: 'left hand'},
+          {name: 'right hip'},
+          {name: 'left hip'},
+          {name: 'right knee'},
+          {name: 'left knee'},
+          {name: 'right ankle'},
+          {name: 'left ankle'}
         ],
         edges: [
           {index: [0,1]},
@@ -48,7 +50,9 @@ Here is a quick usage example.
       },
       onchange: function(annotator) {
         if (annotator.getNextNode() === null)
-          alert(annotator.getGraph());
+          console.log(annotator.getGraph());
+        else
+          console.log('Not yet finished.');
       }
     });
 
@@ -63,8 +67,8 @@ Create a new annotation widget. Following options are accepted.
 
  * `graph` - Graph structure to draw. It is an object with `nodes` and `edges`
              fields. Both are an array of objects, and `edges` must have a
-             `index` field that has two index values pointing to `nodes`.
-             See below for the structure.
+             `index` field that has two index values pointing to node indices.
+             See below for an example.
  * `onchange` - Callback function when the graph is updated. The function takes
                 two arguments: `function(annotator, current_node) {}`. The
                 `annotator` is this annotator object, and `current_node` is the
@@ -85,7 +89,7 @@ Create a new annotation widget. Following options are accepted.
  * `hit_distance` - Diameter in pixels to decide whether to select a closest
                     node.
 
-Following is the required graph structure.
+Below is the an example of the graph structure.
 
     {
       nodes: [{}, {}, ...],
@@ -131,11 +135,12 @@ __getNextNode__ Get the next node to annotate.
 
     next_node = annotator.getNextNode()
 
-Return an index of next node to annotate. When finished, return null.
+Return an index of the next node to annotate. When finished, return null.
 
 __getGraph__ Get the current graph.
 
     graph = annotator.getGraph()
 
-After annotation is completed, each node gets a position field filled. Use
-`getNextNode()` to check whether if there is a pending node to annotate.
+Return the current graph. After annotation is completed, each node gets a
+position field filled with (x,y) coordinates of the node. Use `getNextNode()`
+to check whether if there is a pending node to annotate.

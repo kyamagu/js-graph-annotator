@@ -98,7 +98,7 @@ GraphAnnotator = function(image_url, options) {
       _this._initializeEvents(options);
     _this._renderGraph();
     if (options.onload)
-      options.onload(_this);
+      options.onload.call(_this, _this);
   });
 };
 
@@ -229,7 +229,7 @@ GraphAnnotator.prototype._initializeEvents = function(options) {
       current_node = _this._findNode(_this._getPosition(event));
       _this._updateNode(event, current_node);
       if (options.onselect && current_node !== null)
-        options.onselect(_this, current_node);
+        options.onselect.call(_this, _this, current_node);
       document.onselectstart = function() { return false; };
     }
   });
@@ -242,7 +242,7 @@ GraphAnnotator.prototype._initializeEvents = function(options) {
       _this._updateNode(event, current_node);
       mousestatus = false;
       document.onselectstart = function() { return true; };
-      options.onchange(_this, current_node);
+      options.onchange.call(_this, _this, current_node);
       current_node = null;
     }
   });

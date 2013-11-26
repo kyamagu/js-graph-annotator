@@ -8,6 +8,7 @@
     .inline-block {
       display: inline-block;
       vertical-align: top;
+      white-space: normal;
     }
   </style>
 </head>
@@ -72,7 +73,7 @@
     var image_url = 'example.jpg';
 
     window.onload = function() {
-      // Create an frontal example.
+      // Create a frontal example.
       var example1 = new GraphAnnotator('tshirt_front.png', {
         container: document.getElementById('example-front'),
         graph: {
@@ -128,7 +129,7 @@
           annotator.setNodeAttributes(0, {color: [255, 0, 0], diameter:5});
         }
       });
-      // Create a main annotation tool.
+      // Create a main annotation.
       var graph = { image: image_url, nodes: nodes, edges: edges };
       var annotator = new GraphAnnotator(image_url, {
         container: document.getElementById('annotator'),
