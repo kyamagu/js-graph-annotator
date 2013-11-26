@@ -11,7 +11,7 @@ There is an online demo at http://vision.cs.stonybrook.edu/~kyamagu/js-graph-ann
 
 Here is a quick usage example.
 
-    GraphAnnotator('/path/to/image.jpg', {
+    new GraphAnnotator('/path/to/image.jpg', {
       graph: {
         nodes: [
           {name: 'head'},
@@ -57,7 +57,7 @@ API
 
 __GraphAnnotator__ GraphAnnotator class constructor.
 
-    GraphAnnotator(image_url, { option: value, ... })
+    new GraphAnnotator(image_url, { option: value, ... })
 
 Create a new annotation widget. Following options are accepted.
 
