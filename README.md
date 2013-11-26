@@ -66,20 +66,17 @@ __GraphAnnotator__ GraphAnnotator class constructor.
 Create a new annotation widget. Following options are accepted.
 
  * `graph` - Graph structure to draw. It is an object with `nodes` and `edges`
-             fields. Both are an array of objects, and `edges` must have a
-             `index` field that has two index values pointing to node indices.
-             See below for an example.
+             fields. Both are an array of objects, and `edges` must have
+             `index` field that has two index values pointing to `nodes`. See
+             below for an example.
  * `onchange` - Callback function when the graph is updated. The function takes
-                two arguments: `function(annotator, current_node) {}`. The
-                `annotator` is this annotator object, and `current_node` is the
-                index of the updated node.
+                one argument `current_node`, which is the index of the updated
+                node. Also `this` is set to the annotator object.
  * `onselect` - Callback function when a node is selected. The function takes
-                two arguments: `function(annotator, current_node) {}`. The
-                `annotator` is this annotator object, and `current_node` is the
-                index of the selected node.
- * `onload` - Callback function when the annotator is initialized. The function
-              takes one argument: `function(annotator) {}`. The `annotator` is
-              this annotator object.
+                one argument `current_node`, which is the index of the selected
+                node. Also `this` is set to the annotator object.
+ * `onload` - Callback function when the annotator is initialized. The context
+              is set to the annotator object.
  * `container` - Container DOM element to initialize the graph annotator.
  * `line_width` - Line width of the graph. Each node and edge can overwrite
                   this value by attributes.

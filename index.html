@@ -96,9 +96,9 @@
           edges: edges
         },
         node_color: [255, 255, 255],
-        onload: function(annotator) {
+        onload: function() {
           // Highlight the first node.
-          annotator.setNodeAttributes(0, {color: [255, 0, 0], diameter:5});
+          this.setNodeAttributes(0, {color: [255, 0, 0], diameter:5});
         }
       });
       // Create a back example.
@@ -124,9 +124,9 @@
           edges: edges
         },
         node_color: [255, 255, 255],
-        onload: function(annotator) {
+        onload: function() {
           // Highlight the first node.
-          annotator.setNodeAttributes(0, {color: [255, 0, 0], diameter:5});
+          this.setNodeAttributes(0, {color: [255, 0, 0], diameter:5});
         }
       });
       // Create a main annotation.
@@ -135,23 +135,23 @@
         container: document.getElementById('annotator'),
         graph: graph,
         node_color: [255, 255, 255],
-        onload: function(annotator) {
+        onload: function() {
           document.getElementById('message').innerHTML = '&lt;&lt; Click ' + nodes[0].name;
         },
-        onselect: function(annotator, current_node) {
+        onselect: function(current_node) {
           // Highlight the current node.
           example1.setNodeAttributes({color: null, diameter: 3});
           example2.setNodeAttributes({color: null, diameter: 3});
-          annotator.setNodeAttributes(current_node, {color: [255, 0, 0], diameter: 5});
+          this.setNodeAttributes(current_node, {color: [255, 0, 0], diameter: 5});
           example1.setNodeAttributes(current_node, {color: [255, 0, 0], diameter: 5});
           example2.setNodeAttributes(current_node, {color: [255, 0, 0], diameter: 5});
         },
-        onchange: function(annotator, current_node) {
+        onchange: function(current_node) {
           // Reset the node style.
-          annotator.setNodeAttributes(current_node, {color: null, diameter: 3});
+          this.setNodeAttributes(current_node, {color: null, diameter: 3});
           example1.setNodeAttributes(current_node, {color: null, diameter: 3});
           example2.setNodeAttributes(current_node, {color: null, diameter: 3});
-          var next_node = annotator.getNextNode();
+          var next_node = this.getNextNode();
           if (next_node === null) {
             // Finished.
             document.getElementById('message').innerHTML = 'Finished';
@@ -163,7 +163,7 @@
             example1.setNodeAttributes(next_node, {color: [255, 0, 0], diameter: 5});
             example2.setNodeAttributes(next_node, {color: [255, 0, 0], diameter: 5});
           }
-          graph = annotator.getGraph();
+          graph = this.getGraph();
         }
       });
       // Set up the clear button.
