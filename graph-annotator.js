@@ -84,8 +84,8 @@
 //       edges: [{index: [0, 1]}, {index: [1, 2]}, ...]
 //     }
 GraphAnnotator = function(image_url, options) {
-  options = options || {};
   var _this = this;
+  options = options || {};
   this.graph = options.graph || {nodes: [{}, {}], edges: [{index: [0, 1]}]};
   this.line_width = options.line_width || 3;
   this.node_color = options.node_color || [0, 255, 255];
@@ -220,9 +220,9 @@ GraphAnnotator.prototype._initializeLayers = function(image_url, callback) {
 
 // Set up events.
 GraphAnnotator.prototype._initializeEvents = function(options) {
-  var _this = this;
-  var mousestatus = false;
-  var current_node = null;
+  var _this = this,
+      mousestatus = false,
+      current_node = null;
   this.canvas.addEventListener('mousedown', function(event) {
     if (mousestatus === false) {
       mousestatus = true;
@@ -250,11 +250,11 @@ GraphAnnotator.prototype._initializeEvents = function(options) {
 
 // Find and update the current node.
 GraphAnnotator.prototype._findNode = function(position) {
-  var candidate = null;
+  var candidate = null, i;
   if (position) {
     // Find the nearest node.
     var min_distance = Infinity;
-    for (var i = 0; i < this.graph.nodes.length; ++i) {
+    for (i = 0; i < this.graph.nodes.length; ++i) {
       if (this.graph.nodes[i].position !== undefined) {
         var node_position = this.graph.nodes[i].position;
         var distance = Math.sqrt(
@@ -269,7 +269,7 @@ GraphAnnotator.prototype._findNode = function(position) {
   }
   if (candidate === null) {
     // Find the unfinished node.
-    for (var i = 0; i < this.graph.nodes.length; ++i) {
+    for (i = 0; i < this.graph.nodes.length; ++i) {
       if (this.graph.nodes[i].position === undefined) {
         candidate = i;
         break;
@@ -288,9 +288,10 @@ GraphAnnotator.prototype._renderGraph = function() {
     else
       return rgb;
   }
+  var context, i;
   this.canvas.width = this.image.width;
-  var context = this.canvas.getContext('2d');
-  for (var i = 0; i < this.graph.edges.length; ++i) {
+  context = this.canvas.getContext('2d');
+  for (i = 0; i < this.graph.edges.length; ++i) {
     var edge = this.graph.edges[i];
     var node1 = this.graph.nodes[edge.index[0]];
     var node2 = this.graph.nodes[edge.index[1]];
@@ -304,7 +305,7 @@ GraphAnnotator.prototype._renderGraph = function() {
     context.closePath();
     context.stroke();
   }
-  for (var i = 0; i < this.graph.nodes.length; ++i) {
+  for (i = 0; i < this.graph.nodes.length; ++i) {
     var node = this.graph.nodes[i];
     if (node.position) {
       context.lineWidth = node.line_width || this.line_width;
