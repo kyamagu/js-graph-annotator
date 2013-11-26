@@ -48,9 +48,9 @@ Here is a quick usage example.
           {index: [6,7]}
         ]
       },
-      onchange: function(annotator) {
-        if (annotator.getNextNode() === null)
-          console.log(annotator.getGraph());
+      onchange: function() {
+        if (this.getNextNode() === null)
+          console.log(this.getGraph());
         else
           console.log('Not yet finished.');
       }
