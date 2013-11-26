@@ -47,9 +47,9 @@
 //
 // Kota Yamaguchi 2013
 
-// GraphAnnotator class constructor
+// GraphAnnotator class constructor.
 //
-//     GraphAnnotator(image_url, { option: value, ... })
+//     new GraphAnnotator(image_url, { option: value, ... })
 //
 // Create a new annotation widget. Following options are accepted.
 //
@@ -97,9 +97,8 @@ GraphAnnotator = function(image_url, options) {
     if (options.onchange)
       _this._initializeEvents(options);
     _this._renderGraph();
-    if (options.onload) {
+    if (options.onload)
       options.onload(_this);
-    }
   });
 };
 
@@ -120,7 +119,8 @@ GraphAnnotator = function(image_url, options) {
 // * `diameter` - Diameter of the node.
 //
 GraphAnnotator.prototype.setNodeAttributes = function(index, attributes) {
-  var start = 0, end = this.graph.nodes.length;
+  var start = 0,
+      end = this.graph.nodes.length;
   if (attributes === undefined)
     attributes = index;
   else if (index !== null) {
@@ -150,7 +150,8 @@ GraphAnnotator.prototype.setNodeAttributes = function(index, attributes) {
 // * `line_width` - Width of the line.
 //
 GraphAnnotator.prototype.setEdgeAttributes = function(index, attributes) {
-  var start = 0, end = this.graph.nodes.length;
+  var start = 0,
+      end = this.graph.nodes.length;
   if (attributes === undefined)
     attributes = index;
   else {
@@ -227,7 +228,7 @@ GraphAnnotator.prototype._initializeEvents = function(options) {
       mousestatus = true;
       current_node = _this._findNode(_this._getPosition(event));
       _this._updateNode(event, current_node);
-      if (options.onselect)
+      if (options.onselect && current_node !== null)
         options.onselect(_this, current_node);
       document.onselectstart = function() { return false; };
     }
@@ -282,7 +283,10 @@ GraphAnnotator.prototype._findNode = function(position) {
 GraphAnnotator.prototype._renderGraph = function() {
   // Get a format RGB string.
   function formatRGB(rgb) {
-    return 'rgb(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ')';
+    if (typeof rgb === 'object' && rgb.length === 3)
+      return 'rgb(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ')';
+    else
+      return rgb;
   }
   this.canvas.width = this.image.width;
   var context = this.canvas.getContext('2d');
