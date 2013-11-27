@@ -70,7 +70,7 @@
       {index: [5,6], color: [0, 128, 255]},
       {index: [6,7], color: [0, 128, 255]}
     ];
-    var image_url = 'example.jpg';
+    var imageURL = 'example.jpg';
 
     window.onload = function() {
       // Create a frontal example.
@@ -95,7 +95,7 @@
           ],
           edges: edges
         },
-        node_color: [255, 255, 255],
+        nodeColor: [255, 255, 255],
         onload: function() {
           // Highlight the first node.
           this.setNodeAttributes(0, {color: [255, 0, 0], diameter:5});
@@ -123,18 +123,18 @@
           ],
           edges: edges
         },
-        node_color: [255, 255, 255],
+        nodeColor: [255, 255, 255],
         onload: function() {
           // Highlight the first node.
           this.setNodeAttributes(0, {color: [255, 0, 0], diameter:5});
         }
       });
       // Create a main annotation.
-      var graph = { image: image_url, nodes: nodes, edges: edges };
-      var annotator = new GraphAnnotator(image_url, {
+      var graph = { image: imageURL, nodes: nodes, edges: edges };
+      var annotator = new GraphAnnotator(imageURL, {
         container: document.getElementById('annotator'),
         graph: graph,
-        node_color: [255, 255, 255],
+        nodeColor: [255, 255, 255],
         onload: function() {
           document.getElementById('message').innerHTML = '&lt;&lt; Click ' + nodes[0].name;
         },
@@ -151,17 +151,17 @@
           this.setNodeAttributes(current_node, {color: null, diameter: 3});
           example1.setNodeAttributes(current_node, {color: null, diameter: 3});
           example2.setNodeAttributes(current_node, {color: null, diameter: 3});
-          var next_node = this.getNextNode();
-          if (next_node === null) {
+          var nextNode = this.getNextNode();
+          if (nextNode === null) {
             // Finished.
             document.getElementById('message').innerHTML = 'Finished';
             document.getElementById('download-button').removeAttribute('disabled')
           }
           else {
             // Highlight the next node.
-            document.getElementById('message').innerHTML = '&lt;&lt; Click ' + nodes[next_node].name;
-            example1.setNodeAttributes(next_node, {color: [255, 0, 0], diameter: 5});
-            example2.setNodeAttributes(next_node, {color: [255, 0, 0], diameter: 5});
+            document.getElementById('message').innerHTML = '&lt;&lt; Click ' + nodes[nextNode].name;
+            example1.setNodeAttributes(nextNode, {color: [255, 0, 0], diameter: 5});
+            example2.setNodeAttributes(nextNode, {color: [255, 0, 0], diameter: 5});
           }
           graph = this.getGraph();
         }
@@ -179,12 +179,12 @@
       // Set up the export button.
       document.getElementById('download-button').addEventListener('click', function(event) {
         var anchor = document.createElement('a');
+        var dataURL = 'data:application/json;charset=utf-8,' +
+                      encodeURIComponent(JSON.stringify(graph));
+        anchor.setAttribute('download', 'graph.json');
+        anchor.setAttribute('href', dataURL);
         anchor.style.display = 'none';
         document.body.appendChild(anchor);
-        var data_url = 'data:application/json;charset=utf-8,' +
-                       encodeURIComponent(JSON.stringify(graph));
-        anchor.setAttribute('download', 'graph.json');
-        anchor.setAttribute('href', data_url);
         anchor.click();
         document.body.removeChild(anchor);
       });

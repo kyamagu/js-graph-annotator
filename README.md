@@ -48,7 +48,7 @@ Here is a quick usage example.
           {index: [6,7]}
         ]
       },
-      onchange: function() {
+      onchange: function(currentNode) {
         if (this.getNextNode() === null)
           console.log(this.getGraph());
         else
@@ -70,21 +70,21 @@ Create a new annotation widget. Following options are accepted.
              `index` field that has two index values pointing to `nodes`. See
              below for an example.
  * `onchange` - Callback function when the graph is updated. The function takes
-                one argument `current_node`, which is the index of the updated
+                one argument `currentNode`, which is the index of the updated
                 node. Also `this` is set to the annotator object.
  * `onselect` - Callback function when a node is selected. The function takes
-                one argument `current_node`, which is the index of the selected
+                one argument `currentNode`, which is the index of the selected
                 node. Also `this` is set to the annotator object.
  * `onload` - Callback function when the annotator is initialized. The context
               is set to the annotator object.
  * `container` - Container DOM element to initialize the graph annotator.
- * `line_width` - Line width of the graph. Each node and edge can overwrite
-                  this value by attributes.
- * `node_color` - Color of the node in RGB integer values in an array.
- * `edge_color` - Color of the edge in RGB integer values in an array.
- * `node_diameter` - Diameter of nodes in pixels.
- * `hit_distance` - Diameter in pixels to decide whether to select a closest
-                    node.
+ * `lineWidth` - Line width of the graph. Each node and edge can overwrite
+                 this value by attributes.
+ * `nodeColor` - Color of the node in RGB integer values in an array.
+ * `edgeColor` - Color of the edge in RGB integer values in an array.
+ * `nodeDiameter` - Diameter of nodes in pixels.
+ * `hitDistance` - Diameter in pixels to decide whether to select a closest
+                   node.
 
 Below is the an example of the graph structure.
 
@@ -103,7 +103,7 @@ all nodes.
 There are three attributes.
 
 * `color` - RGB values in a 3-element integer array.
-* `line_width` - Width of the line.
+* `lineWidth` - Width of the line.
 * `diameter` - Diameter of the node.
 
 _Example_
@@ -121,7 +121,7 @@ all edges.
 There are two attributes.
 
 * `color` - RGB values in a 3-element integer array.
-* `line_width` - Width of the line.
+* `lineWidth` - Width of the line.
 
 _Example_
 

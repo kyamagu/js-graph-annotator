@@ -3,23 +3,23 @@
 // A widget to draw a specified graph on an image. Here is a quick usage
 // example.
 //
-//     GraphAnnotator('/path/to/image.jpg', {
+//     new GraphAnnotator('/path/to/image.jpg', {
 //       graph: {
 //         nodes: [
 //           {name: 'head'},
 //           {name: 'neck'},
-//           {name: 'right_shoulder'},
-//           {name: 'right_elbow'},
-//           {name: 'right_hand'},
-//           {name: 'left_shoulder'},
-//           {name: 'left_elbow'},
-//           {name: 'left_hand'},
-//           {name: 'right_hip'},
-//           {name: 'left_hip'},
-//           {name: 'right_knee'},
-//           {name: 'left_knee'},
-//           {name: 'right_ankle'},
-//           {name: 'left_ankle'}
+//           {name: 'right shoulder'},
+//           {name: 'right elbow'},
+//           {name: 'right hand'},
+//           {name: 'left shoulder'},
+//           {name: 'left elbow'},
+//           {name: 'left hand'},
+//           {name: 'right hip'},
+//           {name: 'left hip'},
+//           {name: 'right knee'},
+//           {name: 'left knee'},
+//           {name: 'right ankle'},
+//           {name: 'left ankle'}
 //         ],
 //         edges: [
 //           {index: [0,1]},
@@ -42,15 +42,15 @@
 //         if (this.getNextNode() === null)
 //           alert(this.getGraph());
 //       },
-//       node_color: [255, 255, 255],
-//       edge_color: [  0, 255,   0]
+//       nodeColor: [255, 255, 255],
+//       edgeColor: [  0, 255,   0]
 //     });
 //
 // Kota Yamaguchi 2013
 
 // GraphAnnotator class constructor.
 //
-//     new GraphAnnotator(image_url, { option: value, ... })
+//     new GraphAnnotator(imageURL, { option: value, ... })
 //
 // Create a new annotation widget. Following options are accepted.
 //
@@ -59,21 +59,21 @@
 //              have `index` field that has two index values pointing to
 //              `nodes`. See below for the structure.
 //  * `onchange` - Callback function when the graph is updated. The function
-//                 takes one argument `current_node`, which is the index of the
+//                 takes one argument `currentNode`, which is the index of the
 //                 updated node. Also `this` is set to the annotator object.
 //  * `onselect` - Callback function when a node is selected. The function
-//                 takes one argument `current_node`, which is the index of the
+//                 takes one argument `currentNode`, which is the index of the
 //                 selected node. Also `this` is set to the annotator object.
 //  * `onload` - Callback function when the annotator is initialized. The
 //               context is set to the annotator object.
 //  * `container` - Container DOM element to initialize the graph annotator.
-//  * `line_width` - Line width of the graph. Each node and edge can overwrite
-//                   this value by attributes.
-//  * `node_color` - Color of the node in RGB integer values in an array.
-//  * `edge_color` - Color of the edge in RGB integer values in an array.
-//  * `node_diameter` - Diameter of nodes in pixels.
-//  * `hit_distance` - Diameter in pixels to decide whether to select a closest
-//                     node.
+//  * `lineWidth` - Line width of the graph. Each node and edge can overwrite
+//                  this value by attributes.
+//  * `nodeColor` - Color of the node in RGB integer values in an array.
+//  * `edgeColor` - Color of the edge in RGB integer values in an array.
+//  * `nodeDiameter` - Diameter of nodes in pixels.
+//  * `hitDistance` - Diameter in pixels to decide whether to select a closest
+//                    node.
 //
 // Following is the required graph structure.
 //
@@ -81,16 +81,16 @@
 //       nodes: [{}, {}, ...],
 //       edges: [{index: [0, 1]}, {index: [1, 2]}, ...]
 //     }
-GraphAnnotator = function(image_url, options) {
+GraphAnnotator = function(imageURL, options) {
   options = options || {};
   this.graph = options.graph || {nodes: [{}, {}], edges: [{index: [0, 1]}]};
-  this.line_width = options.line_width || 3;
-  this.node_color = options.node_color || [0, 255, 255];
-  this.edge_color = options.edge_color || [0, 255, 255];
-  this.node_diameter = options.node_diameter || 3;
-  this.hit_distance = options.hit_distance || 10;
+  this.lineWidth = options.lineWidth || 3;
+  this.nodeColor = options.nodeColor || [0, 255, 255];
+  this.edgeColor = options.edgeColor || [0, 255, 255];
+  this.nodeDiameter = options.nodeDiameter || 3;
+  this.hitDistance = options.hitDistance || 10;
   this._initializeContainer(options);
-  this._initializeLayers(image_url, function() {
+  this._initializeLayers(imageURL, function() {
     if (options.onchange)
       this._initializeEvents(options);
     this._renderGraph();
@@ -112,7 +112,7 @@ GraphAnnotator = function(image_url, options) {
 // There are three attributes.
 //
 // * `color` - RGB values in a 3-element integer array.
-// * `line_width` - Width of the line.
+// * `lineWidth` - Width of the line.
 // * `diameter` - Diameter of the node.
 //
 GraphAnnotator.prototype.setNodeAttributes = function(index, attributes) {
@@ -144,7 +144,7 @@ GraphAnnotator.prototype.setNodeAttributes = function(index, attributes) {
 // There are two attributes.
 //
 // * `color` - RGB values in a 3-element integer array.
-// * `line_width` - Width of the line.
+// * `lineWidth` - Width of the line.
 //
 GraphAnnotator.prototype.setEdgeAttributes = function(index, attributes) {
   var start = 0,
@@ -196,10 +196,10 @@ GraphAnnotator.prototype._initializeContainer = function(options) {
 };
 
 // Create layer elements.
-GraphAnnotator.prototype._initializeLayers = function(image_url, callback) {
+GraphAnnotator.prototype._initializeLayers = function(imageURL, callback) {
   var _this = this;
   this.image = new Image();
-  this.image.src = image_url;
+  this.image.src = imageURL;
   this.container.appendChild(this.image);
   this.image.onload = function(event) {
     _this.canvas = document.createElement('canvas');
@@ -219,28 +219,28 @@ GraphAnnotator.prototype._initializeLayers = function(image_url, callback) {
 GraphAnnotator.prototype._initializeEvents = function(options) {
   var _this = this,
       mousestatus = false,
-      current_node = null;
+      currentNode = null;
   this.canvas.addEventListener('mousedown', function(event) {
     if (mousestatus === false) {
       mousestatus = true;
-      current_node = _this._findNode(_this._getPosition(event));
-      _this._updateNode(event, current_node);
-      if (options.onselect && current_node !== null)
-        options.onselect.call(_this, current_node);
+      currentNode = _this._findNode(_this._getPosition(event));
+      _this._updateNode(event, currentNode);
+      if (options.onselect && currentNode !== null)
+        options.onselect.call(_this, currentNode);
       document.onselectstart = function() { return false; };
     }
   });
   this.canvas.addEventListener('mousemove', function(event) {
     if (mousestatus === true)
-      _this._updateNode(event, current_node);
+      _this._updateNode(event, currentNode);
   });
   window.addEventListener('mouseup', function(event) {
     if (mousestatus === true) {
-      _this._updateNode(event, current_node);
+      _this._updateNode(event, currentNode);
       mousestatus = false;
       document.onselectstart = function() { return true; };
-      options.onchange.call(_this, current_node);
-      current_node = null;
+      options.onchange.call(_this, currentNode);
+      currentNode = null;
     }
   });
 };
@@ -251,15 +251,15 @@ GraphAnnotator.prototype._findNode = function(position) {
       i;
   if (position) {
     // Find the nearest node.
-    var min_distance = Infinity;
+    var minDistance = Infinity;
     for (i = 0; i < this.graph.nodes.length; ++i) {
       if (this.graph.nodes[i].position !== undefined) {
-        var node_position = this.graph.nodes[i].position,
+        var nodePosition = this.graph.nodes[i].position,
             distance = Math.sqrt(
-            Math.pow(node_position[0] - position[0], 2) +
-            Math.pow(node_position[1] - position[1], 2));
-        if (distance <= this.hit_distance && distance <= min_distance) {
-          min_distance = distance;
+            Math.pow(nodePosition[0] - position[0], 2) +
+            Math.pow(nodePosition[1] - position[1], 2));
+        if (distance <= this.hitDistance && distance <= minDistance) {
+          minDistance = distance;
           candidate = i;
         }
       }
@@ -296,8 +296,8 @@ GraphAnnotator.prototype._renderGraph = function() {
         node2 = this.graph.nodes[edge.index[1]];
     if (node1.position === undefined || node2.position === undefined)
       continue;
-    context.lineWidth = edge.line_width || this.line_width;
-    context.strokeStyle = formatRGB(edge.color || this.edge_color);
+    context.lineWidth = edge.lineWidth || this.lineWidth;
+    context.strokeStyle = formatRGB(edge.color || this.edgeColor);
     context.beginPath();
     context.moveTo(node1.position[0], node1.position[1]);
     context.lineTo(node2.position[0], node2.position[1]);
@@ -307,12 +307,12 @@ GraphAnnotator.prototype._renderGraph = function() {
   for (i = 0; i < this.graph.nodes.length; ++i) {
     var node = this.graph.nodes[i];
     if (node.position) {
-      context.lineWidth = node.line_width || this.line_width;
-      context.strokeStyle = formatRGB(node.color || this.node_color);
+      context.lineWidth = node.lineWidth || this.lineWidth;
+      context.strokeStyle = formatRGB(node.color || this.nodeColor);
       context.beginPath();
       context.arc(node.position[0],
                   node.position[1],
-                  node.diameter || this.node_diameter,
+                  node.diameter || this.nodeDiameter,
                   0,
                   Math.PI*2,
                   false);
@@ -332,9 +332,9 @@ GraphAnnotator.prototype._getPosition = function(event) {
 };
 
 // Update a node.
-GraphAnnotator.prototype._updateNode = function(event, current_node) {
-  if (current_node !== null) {
-    this.graph.nodes[current_node].position = this._getPosition(event);
+GraphAnnotator.prototype._updateNode = function(event, currentNode) {
+  if (currentNode !== null) {
+    this.graph.nodes[currentNode].position = this._getPosition(event);
     this._renderGraph();
   }
 };
