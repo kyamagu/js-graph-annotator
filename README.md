@@ -86,7 +86,7 @@ Create a new annotation widget. Following options are accepted.
  * `hitDistance` - Diameter in pixels to decide whether to select a closest
                    node.
 
-Below is the an example of the graph structure.
+Below is an example of the graph structure.
 
     {
       nodes: [{}, {}, ...],
@@ -97,7 +97,7 @@ __setNodeAttributes__ Set node attributes.
 
     annotator.setNodeAttributes([index,] { attribute: value, ... })
 
-The first argument is an index of the node. When omitted, attributes are set to
+The first argument is the index of the node. When omitted, attributes are set to
 all nodes.
 
 There are three attributes.
@@ -115,7 +115,7 @@ __setEdgeAttributes__ Set edge attributes.
 
     annotator.setEdgeAttributes([index,] { attribute: value, ... })
 
-The first argument is an index of the edge. When omitted, attributes are set to
+The first argument is the index of the edge. When omitted, attributes are set to
 all edges.
 
 There are two attributes.
