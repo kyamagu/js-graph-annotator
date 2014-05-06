@@ -1,0 +1,194 @@
+<html>
+<head>
+  <script type="text/javascript" src="graph-annotator.js"></script>
+  <style type="text/css">
+    body {
+      font-family: Verdana, Arial, sans-serif;
+    }
+    .inline-block {
+      display: inline-block;
+      vertical-align: top;
+    }
+  </style>
+</head>
+<body>
+  <div style="white-space:nowrap;">
+    <div id="annotator"></div>
+    <div class="inline-block" style="margin:0 1em;">
+      <h2>Graph annotator</h2>
+      <p>Demo on human pose annotation.</p>
+      <p id="message" class="message"></p>
+      <div style="white-space:nowrap;">
+        <div class="inline-block">
+          <p>Front</p>
+          <div id="example-front"></div>
+        </div>
+        <div class="inline-block">
+          <p>Back</p>
+          <div id="example-back"></div>
+        </div>
+      </div>
+      <p>
+        <button id="clear-button">Clear</button>
+        <button id="download-button" disabled="disabled">Export</button>
+      </p>
+      <p><a href="https://github.com/kyamagu/js-graph-annotator" target="_blank">Github</a></p>
+    </div>
+  </div>
+  <script type="text/javascript">
+    // Pose node definitions.
+    var nodes = [
+      {name: 'head'},
+      {name: 'neck'},
+      {name: 'right shoulder'},
+      {name: 'right elbow'},
+      {name: 'right hand'},
+      {name: 'left shoulder'},
+      {name: 'left elbow'},
+      {name: 'left hand'},
+      {name: 'right hip'},
+      {name: 'left hip'},
+      {name: 'right knee'},
+      {name: 'left knee'},
+      {name: 'right ankle'},
+      {name: 'left ankle'}
+    ];
+    // Pose edge definitions.
+    var edges = [
+      {index: [0,1]},
+      {index: [5,9], color: [0, 128, 255]},
+      {index: [9,11], color: [0, 128, 255]},
+      {index: [11,13], color: [0, 128, 255]},
+      {index: [8,9]},
+      {index: [2,8], color: [0, 255, 128]},
+      {index: [8,10], color: [0, 255, 128]},
+      {index: [10,12], color: [0, 255, 128]},
+      {index: [1,2], color: [0, 255, 128]},
+      {index: [2,3], color: [0, 255, 128]},
+      {index: [3,4], color: [0, 255, 128]},
+      {index: [1,5], color: [0, 128, 255]},
+      {index: [5,6], color: [0, 128, 255]},
+      {index: [6,7], color: [0, 128, 255]}
+    ];
+    var image_url = 'example.jpg';
+
+    window.onload = function() {
+      // Create an frontal example.
+      var example1 = new GraphAnnotator('tshirt_front.png', {
+        container: document.getElementById('example-front'),
+        graph: {
+          nodes: [
+            {position: [ 50,  14]},
+            {position: [ 50,  55]},
+            {position: [ 21,  68]},
+            {position: [ 23, 114]},
+            {position: [ 13, 156]},
+            {position: [ 81,  69]},
+            {position: [ 81, 119]},
+            {position: [ 86, 155]},
+            {position: [ 34, 160]},
+            {position: [ 70, 160]},
+            {position: [ 23, 224]},
+            {position: [ 75, 223]},
+            {position: [ 21, 294]},
+            {position: [ 80, 296]}
+          ],
+          edges: edges
+        },
+        node_color: [255, 255, 255],
+        onload: function(annotator) {
+          // Highlight the first node.
+          annotator.setNodeAttributes(0, {color: [255, 0, 0], diameter:5});
+        }
+      });
+      // Create a back example.
+      var example2 = new GraphAnnotator('tshirt_back.png', {
+        container: document.getElementById('example-back'),
+        graph: {
+          nodes: [
+            {position: [ 57,  11]},
+            {position: [ 57,  53]},
+            {position: [ 85,  67]},
+            {position: [ 88, 120]},
+            {position: [ 82, 153]},
+            {position: [ 27,  60]},
+            {position: [ 14, 109]},
+            {position: [ 14, 150]},
+            {position: [ 67, 161]},
+            {position: [ 33, 159]},
+            {position: [ 64, 222]},
+            {position: [ 31, 224]},
+            {position: [ 62, 300]},
+            {position: [ 35, 300]}
+          ],
+          edges: edges
+        },
+        node_color: [255, 255, 255],
+        onload: function(annotator) {
+          // Highlight the first node.
+          annotator.setNodeAttributes(0, {color: [255, 0, 0], diameter:5});
+        }
+      });
+      // Create a main annotation tool.
+      var graph = { image: image_url, nodes: nodes, edges: edges };
+      var annotator = new GraphAnnotator(image_url, {
+        container: document.getElementById('annotator'),
+        graph: graph,
+        node_color: [255, 255, 255],
+        onload: function(annotator) {
+          document.getElementById('message').innerHTML = '&lt;&lt; Click ' + nodes[0].name;
+        },
+        onselect: function(annotator, current_node) {
+          // Highlight the current node.
+          example1.setNodeAttributes({color: null, diameter: 3});
+          example2.setNodeAttributes({color: null, diameter: 3});
+          annotator.setNodeAttributes(current_node, {color: [255, 0, 0], diameter: 5});
+          example1.setNodeAttributes(current_node, {color: [255, 0, 0], diameter: 5});
+          example2.setNodeAttributes(current_node, {color: [255, 0, 0], diameter: 5});
+        },
+        onchange: function(annotator, current_node) {
+          // Reset the node style.
+          annotator.setNodeAttributes(current_node, {color: null, diameter: 3});
+          example1.setNodeAttributes(current_node, {color: null, diameter: 3});
+          example2.setNodeAttributes(current_node, {color: null, diameter: 3});
+          var next_node = annotator.getNextNode();
+          if (next_node === null) {
+            // Finished.
+            document.getElementById('message').innerHTML = 'Finished';
+            document.getElementById('download-button').removeAttribute('disabled')
+          }
+          else {
+            // Highlight the next node.
+            document.getElementById('message').innerHTML = '&lt;&lt; Click ' + nodes[next_node].name;
+            example1.setNodeAttributes(next_node, {color: [255, 0, 0], diameter: 5});
+            example2.setNodeAttributes(next_node, {color: [255, 0, 0], diameter: 5});
+          }
+          graph = annotator.getGraph();
+        }
+      });
+      // Set up the clear button.
+      document.getElementById('clear-button').addEventListener('click', function(event) {
+        annotator.setNodeAttributes({position: undefined});
+        example1.setNodeAttributes({color: null, diameter: 3});
+        example2.setNodeAttributes({color: null, diameter: 3});
+        example1.setNodeAttributes(0, {color: [255, 0, 0], diameter:5});
+        example2.setNodeAttributes(0, {color: [255, 0, 0], diameter:5});
+        document.getElementById('message').innerHTML = '&lt;&lt; Click ' + nodes[0].name;
+        document.getElementById('download-button').setAttribute('disabled', 'disabled');
+      });
+      // Set up the export button.
+      document.getElementById('download-button').addEventListener('click', function(event) {
+        var anchor = document.createElement('a');
+        anchor.style.display = 'none';
+        document.body.appendChild(anchor);
+        var data_url = 'data:application/json;charset=utf-8,' +
+                       encodeURIComponent(JSON.stringify(graph));
+        anchor.setAttribute('download', 'graph.json');
+        anchor.setAttribute('href', data_url);
+        anchor.click();
+        document.body.removeChild(anchor);
+      });
+    }
+  </script>
+</body>
+</html>
